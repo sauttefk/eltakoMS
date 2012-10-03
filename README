@@ -1,0 +1,37 @@
+eltakoMS parses and logs the RS485 serial datastream of the
+Eltako Multisensor weather sensor (temperature, direct sunlight from 3
+directions, dawning, obscurity, wind, rain). A datasheet can be found on
+http://www.eltako.com/dwl/Multisensor%20MS_4801_internet_gb.pdf .
+
+Incoming datagrams
+  W+07.6016300N99901.2N?151515151515?1889
+
+are converted to a more human readable format and get timestamped
+  2008-04-03 17:03:20 t+07.6s01w63e00od999v01.2r
+
+  t[+-]\d\d\.\d : Temperature; degree celsius
+  s\d\d         : sunlight from South; 00 to 99
+  w\d\d         : sunlight from West; 00 to 99
+  e\d\d         : sunlight from East; 00 to 99
+  [oO]          : Obscurity; uppercase when pitch black
+  d\d\d\d       : Dawning; from 000 (dark) to 999 (bright)
+  v\d\d\.\d     : Velocity of wind; meter per second
+  [rR]          : Rain; uppercase when raining
+ 
+It also writes the current data to a file in /dev/shm/ for easy pickup by
+other programs like an snmp-agent or rrdtool.
+ 
+This software is copyright 2008 by Frank Sautter
+(eltakoms~at~sautter~dot~com)
+ 
+This software is based on the quante.c serial logging software copyright
+1996 by Harald Milz (ht~at~seneca~dot~muc~dot~de)
+ 
+This program is free software; you can redistribute it and/or modify it
+under the terms of the GNU General Public License as published by the Free
+Software Foundation; either version 2, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful, but WITHOUT
+ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+details.
